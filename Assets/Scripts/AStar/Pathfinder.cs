@@ -47,7 +47,7 @@ public class Pathfinder
             neighbours.ForEach(neighbour =>
             {
                 if (openList.Contains(neighbour) || closedList.Contains(neighbour) ||
-                    neighbour.State == NodeState.Blocking)
+                    !neighbour.IsWalkable)
                 {
                     return;
                 }

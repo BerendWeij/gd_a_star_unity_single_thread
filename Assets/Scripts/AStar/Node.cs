@@ -12,7 +12,7 @@ public class Node
     public Node(Vector2 position)
     {
         Position = position;
-        State = NodeState.Walkable;
+        IsWalkable = true;
     }
 
     /// <summary>
@@ -41,10 +41,7 @@ public class Node
     /// </summary>
     public float F { get; set; }
 
-    /// <summary>
-    /// Indicates the current state of this node.
-    /// </summary>
-    public NodeState State { get; set; }
+    public bool IsWalkable { get; set; }
 
     /// <summary>
     /// The parent node in a path.

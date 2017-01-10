@@ -15,9 +15,9 @@ public class AStarTester : MonoBehaviour
         var testGrid = new Grid(20, 20);
 
         // We will change some nodes to blocking state
-        testGrid.GetNode(4, 4).State = NodeState.Blocking;
-        testGrid.GetNode(4, 5).State = NodeState.Blocking;
-        testGrid.GetNode(4, 6).State = NodeState.Blocking;
+        testGrid.GetNode(4, 4).IsWalkable = false;
+        testGrid.GetNode(4, 5).IsWalkable = false;
+        testGrid.GetNode(4, 6).IsWalkable = false;
 
         // Find a path from start to end
         var path = Pathfinder.FindPath(startPoint, endPoint, testGrid);
