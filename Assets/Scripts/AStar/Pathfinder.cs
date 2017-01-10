@@ -61,31 +61,31 @@ public class Pathfinder
     }
 
     /// <summary>
-    /// Get the G score for a neighbour.
+    /// Get the G score for a targetNode.
     /// </summary>
-    /// <param name="node"></param>
-    /// <param name="neighbour"></param>
+    /// <param name="parentNode"></param>
+    /// <param name="targetNode"></param>
     /// <returns></returns>
-    private static float GetGScore(Node node, Node neighbour)
+    private static float GetGScore(Node parentNode, Node targetNode)
     {
-        if (node.Position.x != neighbour.Position.x && node.Position.y != neighbour.Position.y)
+        if (parentNode.Position.x != targetNode.Position.x && parentNode.Position.y != targetNode.Position.y)
         {
-            return node.G + diagonalScore;
+            return parentNode.G + diagonalScore;
         }
 
-        return node.G + defaultScore;
+        return parentNode.G + defaultScore;
     }
 
     /// <summary>
     /// Get the H score for a node.
     /// </summary>
-    /// <param name="p1"></param>
-    /// <param name="p2"></param>
+    /// <param name="currentPosition"></param>
+    /// <param name="target"></param>
     /// <returns></returns>
-    private static int GetHeuristic(Vector2 p1, Vector2 p2)
+    private static int GetHeuristic(Vector2 currentPosition, Vector2 target)
     {
-        var xOffset = (int) Mathf.Abs(p2.x - p1.x);
-        var yOffset = (int) Mathf.Abs(p2.y - p1.y);
+        var xOffset = (int) Mathf.Abs(target.x - currentPosition.x);
+        var yOffset = (int) Mathf.Abs(target.y - currentPosition.y);
         return xOffset + yOffset;
     }
 
