@@ -57,7 +57,7 @@ public class Pathfinder
             });
         }
 
-        return null;
+        return new List<Node>();
     }
 
     /// <summary>

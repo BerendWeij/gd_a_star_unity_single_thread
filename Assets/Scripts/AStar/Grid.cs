@@ -18,6 +18,11 @@ public class Grid
     /// <param name="height">Height of the grid (amount ofrows)</param>
     public Grid(int width, int height)
     {
+        if (width < 0 || height < 0)
+        {
+            throw new System.InvalidOperationException("width and height cannot be smaller than zero");
+        }
+
         Width = width;
         Height = height;
 
@@ -61,6 +66,10 @@ public class Grid
     /// <returns></returns>
     public Node GetNode(int x, int y)
     {
+        if (!IsOnGrid(x, y))
+        {
+            throw new System.InvalidOperationException("Requested position is out of bounds");
+        }
         return _grid[x, y];
     }
 
