@@ -7,9 +7,6 @@ public class AStarTester : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // First create our pathfinder instance
-        var pathFinder = new Pathfinder();
-
         // our start & end point for our player
         var startPoint = new Vector2(0, 0);
         var endPoint = new Vector2(6, 5);
@@ -23,7 +20,7 @@ public class AStarTester : MonoBehaviour
         testGrid.GetNode(4, 6).IsWalkable = false;
 
         // Find a path from start to end
-        var path = pathFinder.FindPath(startPoint, endPoint, testGrid);
+        var path = PathFinder.FindPath(startPoint, endPoint, testGrid);
 
         // Display the found path
         path.ForEach(node => Debug.Log(node.Position));

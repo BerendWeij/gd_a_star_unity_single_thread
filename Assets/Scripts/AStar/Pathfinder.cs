@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// A Star pathfinding algorithm.
 /// </summary>
-public class Pathfinder
+public class PathFinder
 {
 
     private static float defaultScore = 1f;
@@ -18,7 +18,7 @@ public class Pathfinder
     /// <param name="endPoint"></param>
     /// <param name="grid"></param>
     /// <returns></returns>
-    public List<Node> FindPath(Vector2 startPoint, Vector2 endPoint, Grid grid)
+    public static List<Node> FindPath(Vector2 startPoint, Vector2 endPoint, Grid grid)
     {
         var openList = new List<Node>();
         var closedList = new List<Node>();
