@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// A Star pathfinding algorithm.
 /// </summary>
-public class PathFinder
+public static class PathFinder
 {
 
     private static float defaultScore = 1f;

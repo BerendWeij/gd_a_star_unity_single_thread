@@ -20,7 +20,7 @@ public class AStarTester : MonoBehaviour
         testGrid.GetNode(4, 6).IsWalkable = false;
 
         // Find a path from start to end
-        var path = PathFinder.FindPath(startPoint, endPoint, testGrid);
+        var path = testGrid.FindPath(startPoint, endPoint);
 
         // Display the found path
         path.ForEach(node => Debug.Log(node.Position));

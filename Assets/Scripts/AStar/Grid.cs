@@ -15,7 +15,7 @@ public class Grid
     /// Constructor.
     /// </summary>
     /// <param name="width">Width of the grid (amount of columns)</param>
-    /// <param name="height">Height of the grid (amount ofrows)</param>
+    /// <param name="height">Height of the grid (amount of rows)</param>
     public Grid(int width, int height)
     {
         if (width < 0 || height < 0)
@@ -47,6 +47,17 @@ public class Grid
     /// The height of the grid.
     /// </summary>
     public int Height { get; set; }
+
+    /// <summary>
+    /// Convenience method for calling PathFinder.findPath()
+    /// </summary>
+    /// <param name="startPoint"></param>
+    /// <param name="endPoint"></param>
+    /// <returns></returns>
+    public List<Node> FindPath(Vector2 startPoint, Vector2 endPoint)
+    {
+        return PathFinder.FindPath(startPoint, endPoint, this);
+    }
 
     /// <summary>
     /// Gets a node from the grid.
