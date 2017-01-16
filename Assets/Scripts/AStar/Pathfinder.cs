@@ -35,9 +35,7 @@ public static class PathFinder
             currentNode = openList[0];
 
             if (currentNode.Position == endPoint)
-            {
                 return GetTraversedPath(currentNode);
-            }
 
             openList.Remove(currentNode);
             closedList.Add(currentNode);
@@ -46,14 +44,14 @@ public static class PathFinder
 
             neighbours.ForEach(neighbour =>
             {
-                if (openList.Contains(neighbour) || closedList.Contains(neighbour) ||
+                if (closedList.Contains(neighbour) ||
                     !neighbour.IsWalkable)
-                {
                     return;
-                }
 
-                SetNodeValues(neighbour, currentNode, endPoint);
-                openList.Add(neighbour);
+                UpdateNodeValues(neighbour, currentNode, endPoint);
+
+                if(!openList.Contains(neighbour))
+                    openList.Add(neighbour);
             });
         }
 
@@ -112,8 +110,13 @@ public static class PathFinder
     /// <param name="targetNode"></param>
     /// <param name="currentNode"></param>
     /// <param name="endPoint"></param>
-    private static void SetNodeValues(Node targetNode, Node currentNode, Vector2 endPoint)
+    private static void UpdateNodeValues(Node targetNode, Node currentNode, Vector2 endPoint)
     {
+        var gScore = GetGScore(currentNode, targetNode);
+
+        if (targetNode.G > 0 && gScore >= targetNode.G)
+            return;
+
         targetNode.G = GetGScore(currentNode, targetNode);
         targetNode.H = GetHeuristic(targetNode.Position, endPoint);
         targetNode.F = targetNode.G + targetNode.H;

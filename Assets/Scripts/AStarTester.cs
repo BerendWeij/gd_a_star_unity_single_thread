@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 
 public class AStarTester : MonoBehaviour
 {
@@ -12,10 +13,12 @@ public class AStarTester : MonoBehaviour
         var endPoint = new Vector2(6, 5);
 
         // Lets create our first grid
-        var testGrid = new Grid(50, 50);
+        var testGrid = new Grid(10, 10);
 
         // We will change some nodes to blocking state
         testGrid.GetNode(4, 4).IsWalkable = false;
+        testGrid.GetNode(5, 4).IsWalkable = false;
+        testGrid.GetNode(6, 4).IsWalkable = false;
         testGrid.GetNode(4, 5).IsWalkable = false;
         testGrid.GetNode(4, 6).IsWalkable = false;
 
@@ -24,5 +27,6 @@ public class AStarTester : MonoBehaviour
 
         // Display the found path
         path.ForEach(node => Debug.Log(node.Position));
+
     }
 }
