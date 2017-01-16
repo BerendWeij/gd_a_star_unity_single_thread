@@ -9,10 +9,10 @@ public class AStarTester : MonoBehaviour
     {
         // our start & end point for our player
         var startPoint = new Vector2(0, 0);
-        var endPoint = new Vector2(6, 5);
+        var endPoint = new Vector2(60, 50);
 
         // Lets create our first grid
-        var testGrid = new Grid(50, 50);
+        var testGrid = new Grid(200, 200);
 
         // We will change some nodes to blocking state
         testGrid.GetNode(4, 4).IsWalkable = false;

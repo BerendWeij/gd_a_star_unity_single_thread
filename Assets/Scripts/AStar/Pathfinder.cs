@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -6,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public static class PathFinder
 {
-
     private static float defaultScore = 1f;
 
     private static float diagonalScore = 1.5f;
@@ -24,6 +24,8 @@ public static class PathFinder
         var closedList = new List<Node>();
         var currentNode = grid.GetNode(startPoint);
 
+        grid.Reset();
+
         openList.Add(currentNode);
 
         while (openList.Count > 0)
@@ -40,19 +42,12 @@ public static class PathFinder
             openList.Remove(currentNode);
             closedList.Add(currentNode);
 
-            var neighbours = grid.GetNeighbours(currentNode.Position);
-
-            neighbours.ForEach(neighbour =>
+            foreach (var neighbour in grid.GetNeighbours(currentNode.Position)
+                .Where(n => n.IsWalkable && !openList.Contains(n) && !closedList.Contains(n)))
             {
-                if (openList.Contains(neighbour) || closedList.Contains(neighbour) ||
-                    !neighbour.IsWalkable)
-                {
-                    return;
-                }
-
                 SetNodeValues(neighbour, currentNode, endPoint);
                 openList.Add(neighbour);
-            });
+            }
         }
 
         return new List<Node>();
