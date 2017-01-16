@@ -26,8 +26,6 @@ public static class PathFinder
 
         openList.Add(currentNode);
 
-        grid.Reset();
-
         while (openList.Count > 0)
         {
             openList.Sort((a, b) => a.F.CompareTo(b.F));

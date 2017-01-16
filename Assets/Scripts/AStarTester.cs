@@ -12,7 +12,7 @@ public class AStarTester : MonoBehaviour
         var endPoint = new Vector2(6, 5);
 
         // Lets create our first grid
-        var testGrid = new Grid(20, 20);
+        var testGrid = new Grid(50, 50);
 
         // We will change some nodes to blocking state
         testGrid.GetNode(4, 4).IsWalkable = false;
