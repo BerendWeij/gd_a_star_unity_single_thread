@@ -24,6 +24,8 @@ public static class PathFinder
         var closedList = new List<Node>();
         var currentNode = grid.GetNode(startPoint);
 
+        grid.Reset();
+
         openList.Add(currentNode);
 
         while (openList.Count > 0)
