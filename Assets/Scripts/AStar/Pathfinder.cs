@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,8 +18,10 @@ public static class PathFinder
     /// <param name="startPoint"></param>
     /// <param name="endPoint"></param>
     /// <param name="grid"></param>
+    /// <param name="heuristic"></param>
     /// <returns></returns>
-    public static List<Node> FindPath(Vector2 startPoint, Vector2 endPoint, Grid grid)
+    public static List<Node> FindPath(Vector2 startPoint, Vector2 endPoint, Grid grid,
+        Func<Vector2, Vector2, float> heuristic = null)
     {
         var openList = new List<Node>();
         var closedList = new List<Node>();
@@ -35,18 +38,18 @@ public static class PathFinder
             currentNode = openList[0];
 
             if (currentNode.Position == endPoint)
-            {
                 return GetTraversedPath(currentNode);
-            }
 
             openList.Remove(currentNode);
             closedList.Add(currentNode);
 
             foreach (var neighbour in grid.GetNeighbours(currentNode.Position)
-                .Where(n => n.IsWalkable && !openList.Contains(n) && !closedList.Contains(n)))
+                .Where(n => n.IsWalkable && !closedList.Contains(n)))
             {
-                SetNodeValues(neighbour, currentNode, endPoint);
-                openList.Add(neighbour);
+                UpdateNodeValues(neighbour, currentNode, endPoint, heuristic);
+
+                if (!openList.Contains(neighbour))
+                    openList.Add(neighbour);
             }
         }
 
@@ -62,24 +65,9 @@ public static class PathFinder
     private static float GetGScore(Node parentNode, Node targetNode)
     {
         if (parentNode.Position.x != targetNode.Position.x && parentNode.Position.y != targetNode.Position.y)
-        {
             return parentNode.G + diagonalScore;
-        }
 
         return parentNode.G + defaultScore;
-    }
-
-    /// <summary>
-    /// Get the H score for a node.
-    /// </summary>
-    /// <param name="currentPosition"></param>
-    /// <param name="target"></param>
-    /// <returns></returns>
-    private static int GetHeuristic(Vector2 currentPosition, Vector2 target)
-    {
-        var xOffset = (int) Mathf.Abs(target.x - currentPosition.x);
-        var yOffset = (int) Mathf.Abs(target.y - currentPosition.y);
-        return xOffset + yOffset;
     }
 
     /// <summary>
@@ -100,15 +88,24 @@ public static class PathFinder
     }
 
     /// <summary>
-    /// Sets the A* values for a node
+    /// Update the A* values for a node when not set or when g value is smaller.
     /// </summary>
     /// <param name="targetNode"></param>
     /// <param name="currentNode"></param>
     /// <param name="endPoint"></param>
-    private static void SetNodeValues(Node targetNode, Node currentNode, Vector2 endPoint)
+    /// <param name="heuristic"></param>
+    private static void UpdateNodeValues(Node targetNode, Node currentNode, Vector2 endPoint, Func<Vector2, Vector2, float> heuristic)
     {
-        targetNode.G = GetGScore(currentNode, targetNode);
-        targetNode.H = GetHeuristic(targetNode.Position, endPoint);
+        if (heuristic == null)
+            heuristic = Heuristic.GetManhattan;
+
+        var gScore = GetGScore(currentNode, targetNode);
+
+        if (targetNode.G > 0 && gScore >= targetNode.G)
+            return;
+
+        targetNode.G = gScore;
+        targetNode.H = heuristic(targetNode.Position, endPoint);
         targetNode.F = targetNode.G + targetNode.H;
         targetNode.Parent = currentNode;
     }

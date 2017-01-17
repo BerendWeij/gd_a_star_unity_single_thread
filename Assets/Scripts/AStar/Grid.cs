@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -49,14 +50,15 @@ public class Grid
     public int Height { get; set; }
 
     /// <summary>
-    /// Convenience method for calling PathFinder.findPath()
+    /// Convenience method for calling PathFinder.findPath().
     /// </summary>
     /// <param name="startPoint"></param>
     /// <param name="endPoint"></param>
+    /// <param name="heuristic"></param>
     /// <returns></returns>
-    public List<Node> FindPath(Vector2 startPoint, Vector2 endPoint)
+    public List<Node> FindPath(Vector2 startPoint, Vector2 endPoint, Func<Vector2, Vector2, float> heuristic = null)
     {
-        return PathFinder.FindPath(startPoint, endPoint, this);
+        return PathFinder.FindPath(startPoint, endPoint, this, heuristic);
     }
 
     /// <summary>
