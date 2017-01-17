@@ -117,7 +117,7 @@ public static class PathFinder
         if (targetNode.G > 0 && gScore >= targetNode.G)
             return;
 
-        targetNode.G = GetGScore(currentNode, targetNode);
+        targetNode.G = gScore;
         targetNode.H = GetHeuristic(targetNode.Position, endPoint);
         targetNode.F = targetNode.G + targetNode.H;
         targetNode.Parent = currentNode;
