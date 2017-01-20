@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AStarTester : MonoBehaviour
 {
@@ -24,5 +25,7 @@ public class AStarTester : MonoBehaviour
 
         // Display the found path
         path.ForEach(node => Debug.Log(node.Position));
+
+
     }
 }
