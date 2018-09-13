@@ -4,8 +4,6 @@ using UnityEngine;
 public class AStarTester : MonoBehaviour
 {
 
-    public GameObject NormalTile;
-
     /// <summary>
     /// Test our A* pathfinding.
     /// </summary>
@@ -27,8 +25,9 @@ public class AStarTester : MonoBehaviour
 
         // Find a path from start to end
         var path = testGrid.FindPath(startPoint, endPoint);
-
-
+        
+        // for demo purpose: Debug.Log the node
+        path.ForEach(node => { Debug.Log(node.Position); });
 
         // een loop om alle vlakken te laten zien
         Node currentNode;
