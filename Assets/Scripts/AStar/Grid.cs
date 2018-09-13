@@ -105,10 +105,7 @@ public class Grid
                 {
                     continue;
                 }
-                if (IsOnGrid(x + i, y + j))
-                {
-                    neighbours.Add(GetNode(x + i, y + j));
-                }
+                AddNeighbour(neighbours, x + i, y + j);
             }
         }
 
@@ -148,5 +145,19 @@ public class Grid
     public bool IsOnGrid(Vector2 position)
     {
         return IsOnGrid((int) position.x, (int) position.y);
+    }
+    
+    /// <summary>
+    /// Add a neighbour to a List of neighbours
+    /// </summary>
+    /// <param name="neighbours"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    private void AddNeighbour(List<Node> neighbours, int x, int y)
+    {
+        if (IsOnGrid(x, y))
+        {
+            neighbours.Add(GetNode(x, y));
+        }
     }
 }
