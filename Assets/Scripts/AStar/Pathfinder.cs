@@ -82,7 +82,9 @@ public static class PathFinder
     /// <returns></returns>
     private static int GetHeuristic(Vector2 currentPosition, Vector2 target)
     {
-
+        var xOffset = (int) Mathf.Abs(target.x - currentPosition.x);
+        var yOffset = (int) Mathf.Abs(target.y - currentPosition.y);
+        return xOffset + yOffset;
     }
 
     /// <summary>
