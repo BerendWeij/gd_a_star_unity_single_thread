@@ -36,14 +36,14 @@ public class AStarTester : MonoBehaviour
 
                 if (!currentNode.IsWalkable)
                 {
-                    // instantiate ik een prefab die rood is | positie is x,y
+                    // instantiate een prefab die rood is | gebruik de x en y om hem te positioneren
                 } else if (path.Contains(currentNode))
                 {
-                    // instantiate ik een prefab die groen is | positie is x,y
+                    // instantiate een prefab die groen is | gebruik de x en y om hem te positioneren
                 }
                 else
                 {
-                    // instantiate ik een prefab die wit is | positie is x,y
+                    // instantiate een prefab die wit is | gebruik de x en y om hem te positioneren
                 }
             }
         }
