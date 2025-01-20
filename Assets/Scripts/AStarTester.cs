@@ -1,56 +1,80 @@
-﻿using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AStarTester : MonoBehaviour
 {
+    [SerializeField] private GameObject blockedPrefab;
+    [SerializeField] private GameObject pathPrefab;
+    [SerializeField] private GameObject walkablePrefab;
+    
+    [SerializeField] private Transform prefabContainer;
 
-    /// <summary>
-    /// Test our A* pathfinding.
-    /// </summary>
+    private Grid _testGrid;
+
     void Start()
     {
-        // our start & end point for our player
+        // Onze start- en eindpositie
         var startPoint = new Vector2(0, 0);
-        var endPoint = new Vector2(6, 5);
+        var endPoint = new Vector2(46, 45);
 
-        // Lets create our first grid
-        var testGrid = new Grid(10, 10);
+        // Maak het grid
+        _testGrid = new Grid(50, 50);
 
-        // We will change some nodes to blocking state
-        testGrid.GetNode(4, 4).IsWalkable = false;
-        testGrid.GetNode(5, 4).IsWalkable = false;
-        testGrid.GetNode(6, 4).IsWalkable = false;
-        testGrid.GetNode(4, 5).IsWalkable = false;
-        testGrid.GetNode(4, 6).IsWalkable = false;
+        // Blokkeer bepaalde nodes
+        BlockColliders();
 
-        // Find a path from start to end
-        var path = testGrid.FindPath(startPoint, endPoint);
-        
-        // for demo purpose: Debug.Log the node
-        path.ForEach(node => { Debug.Log(node.Position); });
+        // Vind een pad van start naar eind
+        var path = _testGrid.FindPath(startPoint, endPoint);
 
-        // een loop om alle vlakken te laten zien
-        Node currentNode;
-        for (int x = 0; x < testGrid.Width; x++)
+        // Log de knooppunten van het gevonden pad
+        path.ForEach(node => Debug.Log($"Pad-node: {node.Position}"));
+
+        // De code hieronder is alleen voor debugging: hiermee visualiseer je het grid
+        for (int x = 0; x < _testGrid.Width; x++)
         {
-            for (int y = 0; y < testGrid.Height; y++)
+            for (int y = 0; y < _testGrid.Height; y++)
             {
-                currentNode = testGrid.GetNode(x, y);
+                var currentNode = _testGrid.GetNode(x, y);
+                var spawnPos = new Vector3(x, y, 0f);
 
+                // Kies het juiste prefab
+                var targetPrefab = walkablePrefab;
                 if (!currentNode.IsWalkable)
                 {
-                    // instantiate een prefab die rood is | gebruik de x en y om hem te positioneren
-                } else if (path.Contains(currentNode))
-                {
-                    // instantiate een prefab die groen is | gebruik de x en y om hem te positioneren
+                    targetPrefab = blockedPrefab;
                 }
-                else
+                else if (path.Contains(currentNode))
                 {
-                    // instantiate een prefab die wit is | gebruik de x en y om hem te positioneren
+                    targetPrefab = pathPrefab;
+                }
+
+                // Plaats de prefab in de scene, als child van 'prefabContainer'
+                Instantiate(targetPrefab, spawnPos, Quaternion.identity, prefabContainer);
+            }
+        }
+    }
+    
+    private void BlockColliders()
+    {
+        var allColliders = FindObjectsOfType<Collider>();
+
+        foreach (var currentCollider in allColliders)
+        {
+            Bounds bounds = currentCollider.bounds;
+            Vector3 min = bounds.min;
+            Vector3 max = bounds.max;
+
+            var minX = Mathf.FloorToInt(min.x);
+            var maxX = Mathf.CeilToInt(max.x);
+            var minY = Mathf.FloorToInt(min.y);
+            var maxY = Mathf.CeilToInt(max.y);
+
+            for (var x = minX; x <= maxX; x++)
+            {
+                for (var y = minY; y <= maxY; y++)
+                {
+                    _testGrid.SetWalkable(x, y, false);
                 }
             }
         }
-
-
     }
 }

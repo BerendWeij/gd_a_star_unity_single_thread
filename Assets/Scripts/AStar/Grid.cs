@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 /// <summary>
 /// An A* Grid
 /// </summary>
@@ -37,6 +39,13 @@ public class Grid
             }
         }
     }
+    
+    public void SetWalkable(int x, int y, bool isWalkable)
+    {
+        if (!IsOnGrid(x, y)) return;
+        
+        _grid[x, y].IsWalkable = isWalkable;
+    }
 
     /// <summary>
     /// The width of the grid.
@@ -57,6 +66,31 @@ public class Grid
     public List<Node> FindPath(Vector2 startPoint, Vector2 endPoint)
     {
         return PathFinder.FindPath(startPoint, endPoint, this);
+    }
+    
+    /// <summary>
+    /// Convenience method for calling PathFinder.FindPath()
+    /// and returning the positions (Vector2) of the found path.
+    /// </summary>
+    /// <param name="startPoint">Begin-positie</param>
+    /// <param name="endPoint">Eind-positie</param>
+    /// <returns>List met Vector2-posities in het pad</returns>
+    public List<Vector2> FindPathPositions(Vector2 startPoint, Vector2 endPoint)
+    {
+        var path = PathFinder.FindPath(startPoint, endPoint, this);
+
+        if (path == null || path.Count == 0)
+        {
+            return new List<Vector2>();
+        }
+
+        var positions = new List<Vector2>();
+        foreach (var node in path)
+        {
+            positions.Add(node.Position);
+        }
+
+        return positions;
     }
 
     /// <summary>
