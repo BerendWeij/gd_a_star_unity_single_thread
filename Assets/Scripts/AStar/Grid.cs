@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 /// <summary>
@@ -178,7 +179,31 @@ public class Grid
     {
         return IsOnGrid((int) position.x, (int) position.y);
     }
-    
+
+    public Node GetRandomWalkableNode()
+    {
+        var walkableNodes = new List<Node>();
+        for (var x = 0; x < Width; x++)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                var node = GetNode(x, y);
+                if (node.IsWalkable)
+                {
+                    walkableNodes.Add(node);
+                }
+            }
+        }
+
+        if (walkableNodes.Count == 0)
+        {
+            return null;
+        }
+
+        var randomIndex = Random.Range(0, walkableNodes.Count);
+        return walkableNodes[randomIndex];
+    }
+
     /// <summary>
     /// Add a neighbour to a List of neighbours
     /// </summary>
